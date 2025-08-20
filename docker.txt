@@ -1,0 +1,49 @@
+
+# To turn off the things that were running in docker
+
+docker compose down
+
+# To turn off the things that were running in docker 
+
+docker compose up -d --build
+
+# this is username and password
+
+--username = airflow
+--password = airflow
+
+
+এই ফাইলটা dags/airflow.py নামে রাখুন।
+airflow.py ফাইলের মধ্যে কোন পরিবর্তন করেন তাহলে save করুন অটোমেটিকভাবে save হয়ে যাবে
+
+
+# কনটেইনারে লগ দেখবেন:
+কারণ কোন সমস্যা দেখতে চাইলে এই কমান্ডটি চালান
+
+docker compose logs -f airflow-scheduler
+
+
+
+# আপনার docker-compose.yaml এ airflow-webserver নামে কোনো সার্ভিস নেই, তাই Docker সেই এরর দেখাচ্ছে।
+
+#  আপনার কনফিগে সার্ভিসগুলো হচ্ছে:
+
+# airflow-apiserver
+
+# airflow-scheduler
+
+# airflow-worker
+
+# airflow-triggerer
+
+# airflow-dag-processor
+
+# airflow-init
+
+#  অর্থাৎ webserver আলাদা করে চালানো হয়নি, বরং আপনি airflow-apiserver কে 8085:8080 পোর্টে চালাচ্ছেন।
+
+""" dags folder এর মধ্যে যদি  নতুন একটি ফাইল  (new.py)  
+তৈরি করেন পুরাতন ফাইল (airflow.py)  চলা অবস্থায় তাহলে 
+এই কমান্ডটি চালান কারণ এটি সম্পূর্ণ system রিস্টার্ট করতে হবে """
+
+docker compose restart airflow-scheduler airflow-apiserver
